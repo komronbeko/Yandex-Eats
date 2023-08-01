@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("../../config/config"));
 const connections_1 = require("../../config/db/connections");
 const User_1 = __importDefault(require("../models/User"));
+const relations_1 = require("../models/relations");
 const run = async (app) => {
+    (0, relations_1.relations)();
     await connections_1.sequelize.authenticate({
         logging: false,
     });

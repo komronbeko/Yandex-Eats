@@ -9,4 +9,3 @@ export interface IRestourantBody {
     latitude: string;
     founded_at: number;
   }
-  
