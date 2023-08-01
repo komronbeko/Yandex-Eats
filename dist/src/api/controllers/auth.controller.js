@@ -5,11 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyUser = exports.register = exports.login = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const User_1 = __importDefault(require("../models/User"));
-const jwt_1 = require("../utils/jwt");
-const custom_error_1 = require("../types/custom-error");
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const User_1 = __importDefault(require("../../models/User"));
+const jwt_1 = require("../../utils/jwt");
+const custom_error_1 = require("../../types/custom-error");
 const sequelize_1 = require("sequelize");
-const user_validate_1 = require("../validations/user.validate");
+const user_validate_1 = require("../../validations/user.validate");
 //--------LOGIN--------------------------------
 const login = async (req, res, next) => {
     try {
@@ -38,7 +39,7 @@ const login = async (req, res, next) => {
     }
 };
 exports.login = login;
-//--------REGISTER--------------------------------
+//--------REGISTER, SENDING VERIFICATION CODE--------------------------------
 const register = async (req, res, next) => {
     try {
         const { name, email, password, phone_number } = req.body;
@@ -60,11 +61,30 @@ const register = async (req, res, next) => {
             password: hashedPassword,
             phone_number,
         });
+        //Creating and sending a code to an email address
         const code = Math.floor(100000 + Math.random() * 900000);
+        const transporter = nodemailer_1.default.createTransport({
+            port: 465,
+            host: "smtp.gmail.com",
+            auth: {
+                user: "uzakovumar338@gmail.com",
+                pass: "ecfuorlboksqoiwd",
+            },
+            secure: true,
+        });
+        const mailData = {
+            from: "uzakovumar338@gmail.com",
+            to: email,
+            subject: "Yandex Eats",
+            text: "Verification",
+            html: `<b>Your verification code is: ${code}</b>`,
+        };
+        const data = await transporter.sendMail(mailData);
+        console.log(data);
+        res.cookie("code", code, { maxAge: 120 * 100 * 60 });
+        res.cookie("email", email, { maxAge: 120 * 100 * 60 });
         res.status(201).json({
             message: "Verification code is sent to your email!",
-            code,
-            email,
         });
     }
     catch (error) {
@@ -72,10 +92,11 @@ const register = async (req, res, next) => {
     }
 };
 exports.register = register;
+//--------CHECKING, IF VERIFICATION CODE IS REAL--------------------------------
 const verifyUser = async (req, res, next) => {
     try {
         const { code, email } = req.cookies;
-        const { verifyCode } = req.body;
+        const verifyCode = req.body.verifyCode;
         if (code != verifyCode) {
             throw new custom_error_1.CustomError("Incorrect code", 403);
         }
@@ -86,7 +107,9 @@ const verifyUser = async (req, res, next) => {
         });
         // TOKEN
         const token = (0, jwt_1.sign)({ email });
-        res.status(200).json({ message: "Successfully registered!", token, role: "user" });
+        res
+            .status(200)
+            .json({ message: "Successfully registered!", token, role: "user" });
     }
     catch (error) {
         next(error);

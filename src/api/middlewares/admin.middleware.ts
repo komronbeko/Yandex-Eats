@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { CustomError } from "../types/custom-error";
-import { verify } from "../utils/jwt";
+import { CustomError } from "../../types/custom-error";
+import { verify } from "../../utils/jwt";
 
 const isAdmin: RequestHandler = async (
   req: Request,
@@ -17,7 +17,7 @@ const isAdmin: RequestHandler = async (
     const findUser = verify(token);
     if (findUser.email !== "ab@gmail.com")
       throw new CustomError(
-        "This route is only accessible by administrator!",
+        "This route is only accessible by main administrator!",
         403
       );
     next();

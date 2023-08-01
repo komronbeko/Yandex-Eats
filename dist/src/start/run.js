@@ -23,6 +23,8 @@ const run = async (app) => {
             password: "$2b$12$oaOaQb4hy2PRocVtMIYdwuY6CCppnkwb3PHTEGlSbFdPDV2wX3k6m",
             email: "ab@gmail.com",
             role: "superadmin",
+            phone_number: "+998999938869",
+            is_verified: true,
         });
     }
     app.all("/*", async (req, res) => {

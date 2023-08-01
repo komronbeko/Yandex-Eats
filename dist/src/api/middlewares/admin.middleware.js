@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const custom_error_1 = require("../types/custom-error");
-const jwt_1 = require("../utils/jwt");
+const custom_error_1 = require("../../types/custom-error");
+const jwt_1 = require("../../utils/jwt");
 const isAdmin = async (req, res, next) => {
     try {
         const token = req.headers["authorization"] &&

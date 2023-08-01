@@ -1,8 +1,8 @@
 import express, { Application } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import router from "../routes";
-import { errorHandler } from "../middlewares/error-handler";
+import router from "../api/routes/index";
+import { errorHandler } from "../api/middlewares/error-handler";
 
 const modules = async (app: Application) => {
   app.use(express.json());
