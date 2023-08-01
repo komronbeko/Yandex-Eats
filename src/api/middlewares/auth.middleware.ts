@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import User from "../models/User";
-import { CustomError } from "../types/custom-error";
-import { verify } from "../utils/jwt";
+import User from "../../models/User";
+import { CustomError } from "../../types/custom-error";
+import { verify } from "../../utils/jwt";
 
 interface IUserRequest extends Request {
   verifiedUser: any;
@@ -13,7 +13,9 @@ const tokenMiddleware: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token;
+    const token =
+      req.headers["authorization"] &&
+      req.headers["authorization"].split(" ")[1];
     if (!token) {
       return res.status(401).json({ message: "Invalid token!" });
     }

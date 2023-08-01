@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { IConfig } from "../src/types/types";
+import { IConfig } from "../src/types/config.type";
 
 const config = {
     PORT: process.env.PORT || 7777,

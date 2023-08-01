@@ -6,7 +6,8 @@ class User extends Model {
   public name!: string;
   public email!: string;
   public password!: string;
-  public phone_number!: number;
+  public phone_number!: string;
+  public is_verified!: boolean;
   public role!: "admin" | "courier" | "user" | "superadmin";
   public created_at!: Date;
   public updated_at!: Date;
@@ -35,12 +36,16 @@ User.init(
       allowNull: false,
     },
     phone_number: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
+    },
+    is_verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     role: {
       type: DataTypes.ENUM('admin', 'courier', 'user', 'superadmin'),
-      defaultValue: false,
+      defaultValue: 'user',
     },
   },
   {
