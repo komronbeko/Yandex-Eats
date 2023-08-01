@@ -2,8 +2,11 @@ import { Application } from "express";
 import config from "../../config/config";
 import { sequelize } from "../../config/db/connections";
 import User from "../models/User";
+import { relations } from "../models/relations";
 
 const run = async (app: Application) => {
+  relations();
+
   await sequelize.authenticate({
     logging: false,
   });

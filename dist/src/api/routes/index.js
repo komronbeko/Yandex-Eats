@@ -4,4 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const auth_routes_1 = __importDefault(require("./auth.routes"));
-exports.default = [auth_routes_1.default];
+const restourant_routes_1 = __importDefault(require("./restourant.routes"));
+const food_routes_1 = __importDefault(require("./food.routes"));
+exports.default = [auth_routes_1.default, restourant_routes_1.default, food_routes_1.default];

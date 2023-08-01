@@ -1,2 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const restourant_controller_1 = require("../controllers/restourant.controller");
+const router = (0, express_1.Router)();
+router.post("/auth/register/restourant", restourant_controller_1.restourant_register);
+router.get("/restourants", restourant_controller_1.get_all);
+router.put("/restourant/:id", restourant_controller_1.update);
+router.delete("/restourant/:id", restourant_controller_1._delete);
+exports.default = router;
