@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyUser = exports.register = exports.login = void 0;
+exports.users = exports.verifyUser = exports.register = exports.login = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const User_1 = __importDefault(require("../../models/User"));
@@ -116,3 +116,13 @@ const verifyUser = async (req, res, next) => {
     }
 };
 exports.verifyUser = verifyUser;
+const users = async (req, res, next) => {
+    try {
+        const users = await User_1.default.findAll();
+        res.json(users);
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.users = users;
