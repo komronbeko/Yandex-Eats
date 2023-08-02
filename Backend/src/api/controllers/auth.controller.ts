@@ -96,14 +96,12 @@ export const register: RequestHandler = async (
       text: "Verification",
       html: `<b>Your verification code is: ${code}</b>`,
     };
-    const data = await transporter.sendMail(mailData);
-    console.log(data);
-
-    res.cookie("code", code, {maxAge: 120 * 100 * 60});
-    res.cookie("email", email, {maxAge: 120 * 100 * 60});
+    await transporter.sendMail(mailData);
 
     res.status(201).json({
       message: "Verification code is sent to your email!",
+      code,
+      email,
     });
   } catch (error) {
     next(error);
@@ -118,8 +116,7 @@ export const verifyUser: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { code, email } = req.cookies;
-    const verifyCode: number = req.body.verifyCode;
+    const { verifyCode, code, email } = req.body;
 
     if (code != verifyCode) {
       throw new CustomError("Incorrect code", 403);
