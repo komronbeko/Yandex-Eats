@@ -8,6 +8,8 @@ class Restourant extends sequelize_1.Model {
     owner;
     business_hours;
     email;
+    password;
+    role;
     contact_number;
     card_detailts;
     longitude;
@@ -44,6 +46,14 @@ Restourant.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    password: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    role: {
+        type: sequelize_1.DataTypes.STRING,
+        defaultValue: 'restaurant_admin',
+    },
     card_detailts: {
         type: sequelize_1.DataTypes.JSON,
         allowNull: false,
@@ -63,7 +73,7 @@ Restourant.init({
     is_verified: {
         type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
     },
 }, {
     tableName: "restourants",
