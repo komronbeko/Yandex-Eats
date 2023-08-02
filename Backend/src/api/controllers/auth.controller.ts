@@ -68,14 +68,6 @@ export const register: RequestHandler = async (
     if (findUser) throw new CustomError("User already exist!", 403);
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    //NEWUSER
-    await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      phone_number,
-    });
-
     //Creating and sending a code to an email address
     const code: number = Math.floor(100000 + Math.random() * 900000);
 
@@ -102,6 +94,9 @@ export const register: RequestHandler = async (
       message: "Verification code is sent to your email!",
       code,
       email,
+      name,
+      password: hashedPassword,
+      phone: phone_number,
     });
   } catch (error) {
     next(error);
@@ -116,20 +111,20 @@ export const verifyUser: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { verifyCode, code, email } = req.body;
+    const { verifyCode, code, email, name, password, phone_number } = req.body;
 
     if (code != verifyCode) {
       throw new CustomError("Incorrect code", 403);
     }
 
-    await User.update(
-      { is_verified: true },
-      {
-        where: {
-          email,
-        },
-      }
-    );
+    //NEWUSER
+    await User.create({
+      name,
+      email,
+      password,
+      phone_number,
+      is_verified: true,
+    });
 
     // TOKEN
     const token = sign({ email });

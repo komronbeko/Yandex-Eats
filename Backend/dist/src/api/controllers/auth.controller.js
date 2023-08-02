@@ -54,13 +54,6 @@ const register = async (req, res, next) => {
         if (findUser)
             throw new custom_error_1.CustomError("User already exist!", 403);
         const hashedPassword = await bcrypt_1.default.hash(password, 12);
-        //NEWUSER
-        await User_1.default.create({
-            name,
-            email,
-            password: hashedPassword,
-            phone_number,
-        });
         //Creating and sending a code to an email address
         const code = Math.floor(100000 + Math.random() * 900000);
         const transporter = nodemailer_1.default.createTransport({
@@ -84,6 +77,9 @@ const register = async (req, res, next) => {
             message: "Verification code is sent to your email!",
             code,
             email,
+            name,
+            password: hashedPassword,
+            phone: phone_number,
         });
     }
     catch (error) {
@@ -94,14 +90,17 @@ exports.register = register;
 //--------CHECKING, IF VERIFICATION CODE IS REAL--------------------------------
 const verifyUser = async (req, res, next) => {
     try {
-        const { verifyCode, code, email } = req.body;
+        const { verifyCode, code, email, name, password, phone_number } = req.body;
         if (code != verifyCode) {
             throw new custom_error_1.CustomError("Incorrect code", 403);
         }
-        await User_1.default.update({ is_verified: true }, {
-            where: {
-                email,
-            },
+        //NEWUSER
+        await User_1.default.create({
+            name,
+            email,
+            password,
+            phone_number,
+            is_verified: true,
         });
         // TOKEN
         const token = (0, jwt_1.sign)({ email });

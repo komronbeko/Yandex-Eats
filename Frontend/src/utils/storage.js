@@ -21,3 +21,27 @@ export const getEmailFromStorage = () => {
 export const setEmailToStorage = (email) => {
   return localStorage.setItem("email", email);
 };
+
+export const getNameFromStorage = () => {
+  return localStorage.getItem("name");
+};
+
+export const setNameToStorage = (name) => {
+  return localStorage.setItem("name", name);
+};
+
+export const getPasswordFromStorage = () => {
+  return localStorage.getItem("password");
+};
+
+export const setPasswordToStorage = (password) => {
+  return localStorage.setItem("password", password);
+};
+
+export const getPhoneFromStorage = () => {
+  return localStorage.getItem("phone");
+};
+
+export const setPhoneToStorage = (phone) => {
+  return localStorage.setItem("phone", phone);
+};
