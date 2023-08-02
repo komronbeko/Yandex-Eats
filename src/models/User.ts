@@ -8,7 +8,12 @@ class User extends Model {
   public password!: string;
   public phone_number!: string;
   public is_verified!: boolean;
-  public role!: "admin" | "courier" | "user" | "superadmin";
+  public role!:
+    | "admin"
+    | "restaurant_admin"
+    | "courier"
+    | "user"
+    | "superadmin";
   public created_at!: Date;
   public updated_at!: Date;
 }
@@ -44,8 +49,14 @@ User.init(
       defaultValue: false,
     },
     role: {
-      type: DataTypes.ENUM('admin', 'courier', 'user', 'superadmin'),
-      defaultValue: 'user',
+      type: DataTypes.ENUM(
+        "user",
+        "restaurant_admin",
+        "courier",
+        "admin",
+        "superadmin"
+      ),
+      defaultValue: "user",
     },
   },
   {
