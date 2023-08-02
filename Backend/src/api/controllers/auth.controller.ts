@@ -7,6 +7,7 @@ import { CustomError } from "../../types/custom-error";
 import { Op } from "sequelize";
 import { IUserLogin, IUserRegister } from "../../types/user.type";
 import { loginSchema, registerSchema } from "../../validations/user.validate";
+import Restourant from "../../models/Restourant";
 
 //--------LOGIN--------------------------------
 
@@ -23,13 +24,15 @@ export const login: RequestHandler = async (
     if (error) throw new CustomError(error.message, 400);
 
     //Finding an email and Comparing Hash Values
-    const findUser = await User.findOne({ where: { email } });
+    const findUser =
+      (await User.findOne({ where: { email } })) ||
+      (await Restourant.findOne({ where: { email } }));
 
     if (!findUser) throw new CustomError("Incorrect email or password!", 403);
 
     const comparePassword = await bcrypt.compare(
       password,
-      findUser.dataValues.password
+      findUser.dataValues?.password
     );
 
     if (!comparePassword)
@@ -49,37 +52,36 @@ export const login: RequestHandler = async (
 
 //--------REGISTER, SENDING VERIFICATION CODE--------------------------------
 
+const transporter = nodemailer.createTransport({
+  port: 465,
+  host: "smtp.gmail.com",
+  auth: {
+    user: "uzakovumar338@gmail.com",
+    pass: "ecfuorlboksqoiwd",
+  },
+  secure: true,
+});
+
 export const register: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { name, email, password, phone_number } = req.body as IUserRegister;
+    const { name, email, password, phone_number, role } =
+      req.body as IUserRegister;
 
     //VALIDATION
-    const { error } = registerSchema({ name, email, password, phone_number });
+    const { error } = registerSchema({
+      name,
+      email,
+      password,
+      phone_number,
+      role,
+    });
     if (error) throw new CustomError(error.message, 400);
 
-    //Finding an email and Hashing password
-    const findUser = await User.findOne({
-      where: { [Op.or]: [{ name }, { email }] },
-    });
-    if (findUser) throw new CustomError("User already exist!", 403);
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    //Creating and sending a code to an email address
     const code: number = Math.floor(100000 + Math.random() * 900000);
-
-    const transporter = nodemailer.createTransport({
-      port: 465,
-      host: "smtp.gmail.com",
-      auth: {
-        user: "uzakovumar338@gmail.com",
-        pass: "ecfuorlboksqoiwd",
-      },
-      secure: true,
-    });
 
     const mailData = {
       from: "uzakovumar338@gmail.com",
@@ -88,15 +90,47 @@ export const register: RequestHandler = async (
       text: "Verification",
       html: `<b>Your verification code is: ${code}</b>`,
     };
-    await transporter.sendMail(mailData);
+
+    //Finding an email and Hashing password
+    const findUser = await User.findOne({
+      where: { [Op.or]: [{ name }, { email }] },
+    });
+    if (findUser) {
+      switch (findUser.is_verified) {
+        case true:
+          throw new CustomError("User already exists", 403);
+        case false:
+          const data = await transporter.sendMail(mailData);
+
+          res.cookie("code", code, { maxAge: 120 * 100 * 60 });
+          res.cookie("email", email, { maxAge: 120 * 100 * 60 });
+          res.cookie("role", role, { maxAge: 120 * 100 * 60 });
+
+          return res.status(201).json({
+            message: "Verification code is sent to your email!",
+          });
+      }
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    //NEWUSER
+    await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone_number,
+      role,
+    });
+
+    const data = await transporter.sendMail(mailData);
+
+    res.cookie("code", code, { maxAge: 120 * 100 * 60 });
+    res.cookie("email", email, { maxAge: 120 * 100 * 60 });
+    res.cookie("role", role, { maxAge: 120 * 100 * 60 });
 
     res.status(201).json({
       message: "Verification code is sent to your email!",
-      code,
-      email,
-      name,
-      password: hashedPassword,
-      phone: phone_number,
     });
   } catch (error) {
     next(error);
@@ -111,26 +145,25 @@ export const verifyUser: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { verifyCode, code, email, name, password, phone_number } = req.body;
+    const { code, email, role } = req.cookies;
+    const verifyCode: number = req.body.verifyCode;
 
     if (code != verifyCode) {
       throw new CustomError("Incorrect code", 403);
     }
 
-    //NEWUSER
-    await User.create({
-      name,
-      email,
-      password,
-      phone_number,
-      is_verified: true,
-    });
+    await User.update(
+      { is_verified: true },
+      {
+        where: {
+          email,
+        },
+      }
+    );
 
     // TOKEN
     const token = sign({ email });
-    res
-      .status(200)
-      .json({ message: "Successfully registered!", token, role: "user" });
+    res.status(200).json({ message: "Successfully registered!", token, role });
   } catch (error) {
     next(error);
   }
