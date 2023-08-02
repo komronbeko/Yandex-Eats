@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        yellow: '#fdc632',
+        yellow: '#FCE000',
       },
       container:{
         center: true

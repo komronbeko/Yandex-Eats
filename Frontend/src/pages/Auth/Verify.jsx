@@ -4,13 +4,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../images/logo.png";
 import bg from "../../images/bg.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   getAccessTokenFromLocalStorage,
+  getCodeFromStorage,
+  getEmailFromStorage,
   setAccessTokenToLocalStorage,
 } from "../../utils/storage";
 
-const Login = () => {
+const Verify = () => {
   const styles = {
     header: {
       backgroundImage: `url(${bg})`,
@@ -37,8 +39,7 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [verifyCode, setVerifyCode] = useState("");
 
   let notifySuccess = (note) => toast.success(note);
   let notifyError = (note) => toast.error(note);
@@ -54,14 +55,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:7777/auth/login", {
-        email,
-        password,
-      });
+      const code = getCodeFromStorage();
+      const email = getEmailFromStorage();
+      const response = await axios.post(
+        "http://localhost:7777/auth/register/verify",
+        {
+          verifyCode,
+          code,
+          email,
+        }
+      );
       console.log(response);
       if (response.status >= 200 && response.status < 300) {
-        setEmail("");
-        setPassword("");
+        setVerifyCode("");
         let messageFromBackend = response.data.message;
         message(messageFromBackend, "success");
         setAccessTokenToLocalStorage(response.data.token);
@@ -92,49 +98,26 @@ const Login = () => {
                     <div className="relative">
                       <input
                         autoComplete="off"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="text"
-                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-yellow"
-                        placeholder="Email address"
-                      />
-                      <label
-                        htmlFor="email"
-                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-yellow peer-focus:text-sm">
-                        Email Address
-                      </label>
-                    </div>
-                    <div className="relative">
-                      <input
-                        autoComplete="off"
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="password"
+                        id="verifyCode"
+                        name="verifyCode"
+                        value={verifyCode}
+                        onChange={(e) => setVerifyCode(e.target.value)}
+                        type="number"
                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-yellow"
                         placeholder="Password"
                       />
                       <label
                         htmlFor="password"
                         className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-yellow peer-focus:text-sm">
-                        Password
+                        Verification Code
                       </label>
                     </div>
                     <div className="relative flex flex-row justify-start items-center gap-5">
                       <button
                         type={"submit"}
                         className="bg-yellow text-black rounded-md px-2 py-1 my-2">
-                        Login
+                        Submit
                       </button>
-                      <p className="text-sm text-black">
-                        Don't have an account?{" "}
-                        <Link to={"/auth/register"} className="text-md text-yellow underline">
-                          Sign Up
-                        </Link>
-                      </p>
                     </div>
                   </div>
                 </form>
@@ -147,4 +130,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Verify;
