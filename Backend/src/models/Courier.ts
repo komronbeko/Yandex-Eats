@@ -1,19 +1,18 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../../config/db/connections";
 
-class User extends Model {
+class Courier extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
   public password!: string;
   public phone_number!: string;
-  public is_verified!: boolean;
-  public role!: "admin" | "courier" | "user" | "superadmin";
+  public role!: "courier";
   public created_at!: Date;
   public updated_at!: Date;
 }
 
-User.init(
+Courier.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -39,21 +38,17 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    is_verified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
     role: {
-      type: DataTypes.ENUM('admin', 'courier', 'user', 'superadmin'),
-      defaultValue: 'user',
+      type: DataTypes.STRING,
+      defaultValue: 'courier',
     },
   },
   {
-    tableName: "users",
+    tableName: "couriers",
     sequelize,
     createdAt: "created_at",
     updatedAt: "updated_at",
   }
 );
 
-export default User;
+export default Courier;
