@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import logo from "../../images/logo.png";
 import bg from "../../images/bg.png";
 import { Link, useNavigate } from "react-router-dom";
-import { getAccessTokenFromLocalStorage, setCodeToStorage, setEmailToStorage } from "../../utils/storage";
+import { getAccessTokenFromLocalStorage, setCodeToStorage, setEmailToStorage, setNameToStorage, setPasswordToStorage, setPhoneToStorage } from "../../utils/storage";
 
 const Register = () => {
   const styles = {
@@ -69,6 +69,9 @@ const Register = () => {
         message(messageFromBackend, "success");
         setCodeToStorage(response.data.code);
         setEmailToStorage(response.data.email);
+        setPhoneToStorage(response.data.phone);
+        setNameToStorage(response.data.name);
+        setPasswordToStorage(response.data.password);
         navigate("/auth/register/verification");
       }
     } catch (error) {

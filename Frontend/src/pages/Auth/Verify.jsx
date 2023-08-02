@@ -9,6 +9,9 @@ import {
   getAccessTokenFromLocalStorage,
   getCodeFromStorage,
   getEmailFromStorage,
+  getNameFromStorage,
+  getPasswordFromStorage,
+  getPhoneFromStorage,
   setAccessTokenToLocalStorage,
 } from "../../utils/storage";
 
@@ -57,12 +60,18 @@ const Verify = () => {
     try {
       const code = getCodeFromStorage();
       const email = getEmailFromStorage();
+      const name = getNameFromStorage();
+      const password = getPasswordFromStorage();
+      const phone = getPhoneFromStorage();
       const response = await axios.post(
         "http://localhost:7777/auth/register/verify",
         {
           verifyCode,
           code,
           email,
+          name,
+          password,
+          phone_number: phone,
         }
       );
       console.log(response);
@@ -70,6 +79,7 @@ const Verify = () => {
         setVerifyCode("");
         let messageFromBackend = response.data.message;
         message(messageFromBackend, "success");
+        localStorage.clear();
         setAccessTokenToLocalStorage(response.data.token);
         navigate("/");
       }
