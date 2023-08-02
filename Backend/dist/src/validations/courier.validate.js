@@ -13,7 +13,6 @@ const courierSchema = (payload) => {
         phone_number: joi_1.default.string()
             .regex(/^\+998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/)
             .required(),
-        restaurant_id: joi_1.default.number()
     }).validate(payload);
 };
 exports.courierSchema = courierSchema;

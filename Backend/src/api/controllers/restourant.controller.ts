@@ -1,11 +1,12 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
+import bcrypt from "bcrypt";
 import { IRestourantBody } from "../../types/restourant.type";
 import { restourantSchema } from "../../validations/restourant.validate";
 import { CustomError } from "../../types/custom-error";
 import Restourants from "../../models/Restourant";
 import Foods from "../../models/Food";
 
-export const restourant_register: RequestHandler = async (
+export const post: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,6 +17,7 @@ export const restourant_register: RequestHandler = async (
       owner,
       business_hours,
       email,
+      password,
       contact_number,
       card_detailts,
       longitude,
@@ -28,6 +30,7 @@ export const restourant_register: RequestHandler = async (
       owner,
       business_hours,
       email,
+      password,
       contact_number,
       card_detailts,
       longitude,
@@ -36,11 +39,15 @@ export const restourant_register: RequestHandler = async (
     });
     if (error) throw new CustomError(error.message, 400);
 
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+
     await Restourants.create({
       name,
       owner,
       business_hours,
       email,
+      password: hashedPassword,
       contact_number,
       card_detailts,
       longitude,
@@ -50,7 +57,6 @@ export const restourant_register: RequestHandler = async (
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -71,7 +77,6 @@ export const get_all: RequestHandler = async (
 
     res.status(200).json({ message: "success", data });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -87,6 +92,7 @@ export const update: RequestHandler = async (
       owner,
       business_hours,
       email,
+      password,
       contact_number,
       card_detailts,
       longitude,
@@ -101,6 +107,7 @@ export const update: RequestHandler = async (
       owner,
       business_hours,
       email,
+      password,
       contact_number,
       card_detailts,
       longitude,
@@ -131,7 +138,6 @@ export const update: RequestHandler = async (
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -155,7 +161,6 @@ export const _delete: RequestHandler = async (
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

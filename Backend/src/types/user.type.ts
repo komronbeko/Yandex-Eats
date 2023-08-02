@@ -3,9 +3,12 @@ export interface IUserRegister {
   email: string;
   password: string;
   phone_number: string;
+  role?: string;
+  id?: number;
 }
 
 export interface IUserLogin {
   email: string;
   password: string;
+  role?: string;
 }

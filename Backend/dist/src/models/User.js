@@ -45,6 +45,7 @@ User.init({
     role: {
         type: sequelize_1.DataTypes.ENUM('admin', 'courier', 'user', 'superadmin'),
         defaultValue: 'user',
+        allowNull: false
     },
 }, {
     tableName: "users",
