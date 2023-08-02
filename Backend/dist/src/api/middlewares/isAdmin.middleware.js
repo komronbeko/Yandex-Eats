@@ -16,9 +16,13 @@ const isAdmin = async (req, res, next) => {
         const verifiedUser = await User_1.default.findOne({
             where: { email: findUser.email },
         });
-        if (verifiedUser?.dataValues.role !== "admin" || verifiedUser?.dataValues.role !== "superadmin")
+        if (verifiedUser?.dataValues.role == "admin" ||
+            verifiedUser?.dataValues.role == "superadmin") {
+            next();
+        }
+        else {
             throw new custom_error_1.CustomError(`This route is only accessible by administrators!`, 403);
-        next();
+        }
     }
     catch (error) {
         next(error);

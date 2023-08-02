@@ -1,6 +1,7 @@
-import Couriers from "./Courier";
 import Foods from "./Food";
+import RestaurantCouriers from "./Restaurant-couriers";
 import Restourants from "./Restourant";
+import Users from "./User";
 
 export const relations = () => {
   Restourants.hasMany(Foods, {
@@ -16,17 +17,8 @@ export const relations = () => {
     },
   });
 
-  Restourants.hasMany(Couriers, {
-    foreignKey: {
-      name: "restourant_id",
-      allowNull: false,
-    },
-  });
-
-  Couriers.belongsTo(Restourants, {
-    foreignKey: {
-      name: "restourant_id",
-      allowNull: false,
-    },
-  });
+  Restourants.hasMany(RestaurantCouriers);
+  RestaurantCouriers.belongsTo(Restourants);
+  Users.hasMany(RestaurantCouriers);
+  RestaurantCouriers.belongsTo(Users);
 };

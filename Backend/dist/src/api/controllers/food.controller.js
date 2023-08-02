@@ -10,7 +10,8 @@ const Food_1 = __importDefault(require("../../models/Food"));
 const Restourant_1 = __importDefault(require("../../models/Restourant"));
 const post = async (req, res, next) => {
     try {
-        const { name, price, weight, restourant_id } = req.body;
+        const { name, price, weight } = req.body;
+        const { id: restourant_id } = req.verifiedRestaurant;
         const { error } = (0, food_validate_1.foodSchema)({
             name,
             price,
@@ -28,7 +29,6 @@ const post = async (req, res, next) => {
         res.status(200).json({ message: "success" });
     }
     catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -39,26 +39,25 @@ const get_all = async (req, res, next) => {
             include: [
                 {
                     model: Restourant_1.default,
+                    attributes: ["name", "contact_number"]
                 },
             ],
         });
         res.status(200).json({ message: "success", data });
     }
     catch (error) {
-        console.log(error);
         next(error);
     }
 };
 exports.get_all = get_all;
 const update = async (req, res, next) => {
     try {
-        const { name, price, weight, restourant_id } = req.body;
+        const { name, price, weight } = req.body;
         const { id } = req.params;
         const { error } = (0, food_validate_1.foodSchema)({
             name,
             price,
             weight,
-            restourant_id,
         });
         if (error)
             throw new custom_error_1.CustomError(error.message, 400);
@@ -75,7 +74,6 @@ const update = async (req, res, next) => {
         res.status(200).json({ message: "success" });
     }
     catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -94,7 +92,6 @@ const _delete = async (req, res, next) => {
         res.status(200).json({ message: "success" });
     }
     catch (error) {
-        console.log(error);
         next(error);
     }
 };

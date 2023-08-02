@@ -13,6 +13,7 @@ const registerSchema = (payload) => {
         phone_number: joi_1.default.string()
             .regex(/^\+998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/)
             .required(),
+        role: joi_1.default.string()
     }).validate(payload);
 };
 exports.registerSchema = registerSchema;

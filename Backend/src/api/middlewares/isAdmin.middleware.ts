@@ -21,12 +21,18 @@ const isAdmin: RequestHandler = async (
       where: { email: findUser.email },
     });
 
-    if (verifiedUser?.dataValues.role !== "admin" || verifiedUser?.dataValues.role !== "superadmin")
-    throw new CustomError(
-      `This route is only accessible by administrators!`,
-      403
-    );
-    next();
+
+    if (
+      verifiedUser?.dataValues.role == "admin" ||
+      verifiedUser?.dataValues.role == "superadmin"
+    ) {
+      next();
+    } else {
+      throw new CustomError(
+        `This route is only accessible by administrators!`,
+        403
+      );
+    }
   } catch (error) {
     next(error);
   }

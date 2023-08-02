@@ -4,14 +4,22 @@ import { IFoodBody } from "../../types/food.type";
 import { foodSchema } from "../../validations/food.validate";
 import Foods from "../../models/Food";
 import Restourants from "../../models/Restourant";
+import { IRestourantBody } from "../../types/restourant.type";
+
+interface IFoodRequest extends Request {
+  verifiedRestaurant?: IRestourantBody;
+}
 
 export const post: RequestHandler = async (
-  req: Request,
+  req: IFoodRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { name, price, weight, restourant_id } = req.body as IFoodBody;
+    const { name, price, weight } = req.body as IFoodBody;
+
+    const {id: restourant_id} = req.verifiedRestaurant as IRestourantBody;
+
 
     const { error } = foodSchema({
       name,
@@ -31,7 +39,6 @@ export const post: RequestHandler = async (
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -46,24 +53,24 @@ export const get_all: RequestHandler = async (
       include: [
         {
           model: Restourants,
+          attributes: ["name", "contact_number"]
         },
       ],
     });
 
     res.status(200).json({ message: "success", data });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
 
 export const update: RequestHandler = async (
-  req: Request,
+  req: IFoodRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { name, price, weight, restourant_id } = req.body as IFoodBody;
+    const { name, price, weight } = req.body as IFoodBody;
 
     const { id } = req.params;
 
@@ -71,7 +78,6 @@ export const update: RequestHandler = async (
       name,
       price,
       weight,
-      restourant_id,
     });
     if (error) throw new CustomError(error.message, 400);
 
@@ -91,7 +97,6 @@ export const update: RequestHandler = async (
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -115,7 +120,6 @@ export const _delete: RequestHandler = async (
 
     res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
