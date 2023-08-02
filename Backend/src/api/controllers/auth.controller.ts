@@ -8,7 +8,6 @@ import { Op } from "sequelize";
 import { IUserLogin, IUserRegister } from "../../types/user.type";
 import { loginSchema, registerSchema } from "../../validations/user.validate";
 import Restourant from "../../models/Restourant";
-import { IRestourantBody } from "../../types/restourant.type";
 
 //--------LOGIN--------------------------------
 
