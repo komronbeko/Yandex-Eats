@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../../../images/logo1.png";
-import { FaLanguage } from "react-icons/fa";
+import { FaLanguage, FaXing } from "react-icons/fa";
 import {
   Menu,
   MenuHandler,
@@ -11,9 +12,12 @@ import {
   Avatar,
   Typography,
 } from "@material-tailwind/react";
+import { getAccessTokenFromLocalStorage } from "../../../utils/storage";
 
 const Header = () => {
   const url = useLocation().pathname;
+
+  const token = getAccessTokenFromLocalStorage();
 
   const [location, setLocation] = useState({
     latitude: null,
@@ -49,6 +53,7 @@ const Header = () => {
   }, []);
 
   const [address, setAddress] = useState(null);
+  const [fullAddress, setFullAddress] = useState(null);
 
   useEffect(() => {
     if (location.latitude && location.longitude) {
@@ -58,6 +63,7 @@ const Header = () => {
         .then((response) => response.json())
         .then((data) => {
           let fullAddress = data.display_name;
+          setFullAddress(fullAddress);
           let splitAddress = fullAddress.split(",");
           let firstTwoWords = splitAddress[0] + "," + splitAddress[1];
           setAddress(firstTwoWords);
@@ -83,6 +89,36 @@ const Header = () => {
     message(location.error, "error");
   }
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const [user, setUser] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:7777/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = response.data.data;
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  });
+
   return (
     <header
       className={`bg-white font-assistant mx-auto my-0 flex justify-center items-center ${
@@ -92,6 +128,49 @@ const Header = () => {
           ? "hidden"
           : " "
       }`}>
+      {showModal ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">My Profile</h3>
+                  <button onClick={handleModalClose} className="text-gray-600 transition duration-300 rounded-full hover:bg-gray-500 hover:text-white p-2">
+                    <FaXing />
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex flex-row gap-10 text-xl">
+                  <div className="flex flex-col text-start items-start gap-5 w-60">
+                    <h5 className="font-bold">Name: </h5>
+                    <h5 className="font-bold">Email: </h5>
+                    <h5 className="font-bold">Phone Number: </h5>
+                    <h5 className="font-bold">Address: </h5>
+                  </div>
+                  <div className="flex flex-col text-start items-start gap-5">
+                    <span>{user.name}</span>
+                    <span>{user.email}</span>
+                    <span>{user.phone_number}</span>
+                    <span>{fullAddress}</span>
+                  </div>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-black bg-yellow rounded-xl font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={handleModalClose}>
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
       <nav className="flex flex-row items-center">
         <Link to={"/"}>
           <img src={logo} alt="logo" />
@@ -132,7 +211,9 @@ const Header = () => {
               />
             </MenuHandler>
             <MenuList>
-              <MenuItem className="flex items-center gap-2">
+              <MenuItem
+                className="flex items-center gap-2"
+                onClick={handleButtonClick}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
