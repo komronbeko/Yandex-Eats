@@ -117,7 +117,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <header
@@ -127,7 +127,8 @@ const Header = () => {
         url === "/auth/register/verification"
           ? "hidden"
           : " "
-      }`}>
+      }`}
+    >
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -139,7 +140,8 @@ const Header = () => {
                   <h3 className="text-3xl font-semibold">My Profile</h3>
                   <button
                     onClick={handleModalClose}
-                    className="text-gray-600 transition duration-300 rounded-full hover:bg-gray-500 hover:text-white p-2">
+                    className="text-gray-600 transition duration-300 rounded-full hover:bg-gray-500 hover:text-white p-2"
+                  >
                     <FaXing />
                   </button>
                 </div>
@@ -163,7 +165,8 @@ const Header = () => {
                   <button
                     className="text-black bg-yellow rounded-xl font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={handleModalClose}>
+                    onClick={handleModalClose}
+                  >
                     OK
                   </button>
                 </div>
@@ -177,8 +180,7 @@ const Header = () => {
         <Link to={"/"}>
           <img src={logo} alt="logo" />
         </Link>
-        <div
-          className={`w-full sm:max-w-xl `}>
+        <div className={`w-full sm:max-w-xl `}>
           <div className="overflow-hidden z-0 rounded-md relative p-3">
             <form className="relative flex z-50 bg-transparent rounded-xl">
               <input
@@ -207,12 +209,14 @@ const Header = () => {
               viewBox="0 0 25 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="UiKitUiKitIcon_m UiKitUiKitIcon_root">
+              className="UiKitUiKitIcon_m UiKitUiKitIcon_root"
+            >
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M12.5 2c5.523 0 10 4.477 10 10s-4.477 10-10 10-10-4.477-10-10 4.477-10 10-10Zm.002 18a.21.21 0 0 0 .077-.024c.06-.027.164-.089.303-.22.288-.27.638-.755.976-1.506.584-1.297 1.013-3.128 1.118-5.25h-4.952c.105 2.122.534 3.953 1.118 5.25.338.75.688 1.236.976 1.507.139.13.243.192.303.22.05.022.072.023.078.023h.003Zm-3.024-.59c-.804-1.62-1.343-3.876-1.456-6.41h-3.46a8.009 8.009 0 0 0 4.916 6.41ZM4.562 11h3.46c.113-2.534.652-4.79 1.456-6.41A8.008 8.008 0 0 0 4.562 11Zm10.96 8.41A8.008 8.008 0 0 0 20.438 13h-3.46c-.113 2.534-.652 4.79-1.456 6.41ZM20.438 11a8.008 8.008 0 0 0-4.916-6.41c.804 1.62 1.343 3.876 1.456 6.41h3.46Zm-7.94-7a.211.211 0 0 0-.077.024c-.06.027-.164.089-.303.22-.288.27-.638.755-.976 1.506-.584 1.297-1.013 3.128-1.118 5.25h4.952c-.105-2.122-.534-3.953-1.118-5.25-.338-.75-.688-1.236-.976-1.507a1.176 1.176 0 0 0-.303-.22.206.206 0 0 0-.078-.023h-.003Z"
-                fill="currentColor"></path>
+                fill="currentColor"
+              ></path>
             </svg>
             English
           </div>
@@ -228,14 +232,16 @@ const Header = () => {
             <MenuList>
               <MenuItem
                 className="flex items-center gap-2"
-                onClick={handleButtonClick}>
+                onClick={handleButtonClick}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="h-4 w-4">
+                  className="h-4 w-4"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -253,7 +259,8 @@ const Header = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="h-4 w-4">
+                  className="h-4 w-4"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -276,7 +283,8 @@ const Header = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="h-4 w-4">
+                  className="h-4 w-4"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -294,7 +302,8 @@ const Header = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="h-4 w-4">
+                  className="h-4 w-4"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -311,14 +320,16 @@ const Header = () => {
                 onClick={() => {
                   localStorage.clear();
                   window.location.reload();
-                }}>
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="h-4 w-4">
+                  className="h-4 w-4"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
