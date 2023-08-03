@@ -19,6 +19,6 @@
   grid-template-areas:
     "menu main main basket"
     "menu main main basket";
-  gap: 10px;
+  gap: 20px;
   padding: 10px;
 }
