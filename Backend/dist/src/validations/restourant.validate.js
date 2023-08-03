@@ -13,7 +13,7 @@ const restourantSchema = (payload) => {
         email: joi_1.default.string().required(),
         password: joi_1.default.string().required(),
         contact_number: joi_1.default.string().required(),
-        card_detailts: {
+        card_details: {
             card_number: joi_1.default.number().required(),
             cvv: joi_1.default.number().required(),
             expiration_date: joi_1.default.string().required(),

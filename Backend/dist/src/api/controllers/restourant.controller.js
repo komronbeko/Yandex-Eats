@@ -14,7 +14,7 @@ const connections_1 = require("../../../config/db/connections");
 const sequelize_1 = require("sequelize");
 const post = async (req, res, next) => {
     try {
-        const { name, owner, business_hours, email, password, contact_number, card_detailts, longitude, latitude, founded_at, } = req.body;
+        const { name, owner, business_hours, email, password, contact_number, card_details, longitude, latitude, founded_at, } = req.body;
         const { error } = (0, restourant_validate_1.restourantSchema)({
             name,
             owner,
@@ -22,7 +22,7 @@ const post = async (req, res, next) => {
             email,
             password,
             contact_number,
-            card_detailts,
+            card_details,
             longitude,
             latitude,
             founded_at,
@@ -37,7 +37,7 @@ const post = async (req, res, next) => {
             email,
             password: hashedPassword,
             contact_number,
-            card_detailts,
+            card_details,
             longitude,
             latitude,
             founded_at,
@@ -100,7 +100,7 @@ const get_near = async (req, res, next) => {
 exports.get_near = get_near;
 const update = async (req, res, next) => {
     try {
-        const { name, owner, business_hours, email, password, contact_number, card_detailts, longitude, latitude, founded_at, } = req.body;
+        const { name, owner, business_hours, email, password, contact_number, card_details, longitude, latitude, founded_at, } = req.body;
         const { id } = req.params;
         const { error } = (0, restourant_validate_1.restourantSchema)({
             name,
@@ -109,7 +109,7 @@ const update = async (req, res, next) => {
             email,
             password,
             contact_number,
-            card_detailts,
+            card_details,
             longitude,
             latitude,
             founded_at,
@@ -126,7 +126,7 @@ const update = async (req, res, next) => {
                 business_hours,
                 email,
                 contact_number,
-                card_detailts,
+                card_details,
                 longitude,
                 latitude,
                 founded_at,

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
-const Home = () => {
+const RestaurantsAll = () => {
   const navigate = useNavigate();
 
   const token = getAccessTokenFromLocalStorage();
@@ -93,18 +93,6 @@ const Home = () => {
     return deg * (Math.PI / 180);
   }
 
-  const filteredData = data.filter((item) => {
-    const distance = calculateDistance(
-      location.latitude,
-      location.longitude,
-      item.latitude,
-      item.longitude
-    );
-    return distance === "20-30";
-  });
-  
-  console.log(filteredData);
-
   const TooltipItem = ({ children, position }) => {
     return (
       <div className="bg-gray-200 transition duration-200 hover:bg-gray-300 w-[7.7rem] text-center rounded-full ml-2">
@@ -126,19 +114,14 @@ const Home = () => {
 
   return (
     <main className="bg-white font-assistant container">
-      <hr />
-      <div className="flex flex-row items-center justify-between mt-5 px-5">
-        <h2 className="font-bold text-5xl">Offers</h2>
-        <Link to={"/restaurants"} className="transition duration-200 rounded-lg px-5 py-2 font-bold bg-gray-300 flex flex-row items-center gap-1 text-lg hover:bg-gray-200">
-          All{" >"}
-        </Link>
-      </div>
+      <hr className="mb-10"/>
+      <Link to={"/"} className="rounded-xl bg-gray-200 hover:bg-gray-300 transition duration-300 ml-5 px-5 py-3 text-center">{"< "}Restaurants Near</Link>
       <div className="flex flex-row items-center justify-between mt-10 px-5">
-        <h2 className="font-bold text-5xl">Restaurants near</h2>
+        <h2 className="font-bold text-5xl">All Restaurants</h2>
       </div>
-      {filteredData.length > 0 && (
+      {data.length > 0 && (
         <div className="flex px-5 justify-start gap-10 items-center">
-          {filteredData.map((restaurant) => (
+          {data.map((restaurant) => (
             <Link to={"/menu"} key={restaurant.id}>
               <div className="flex justify-start">
                 <div className="w-80 h-96 py-5">
@@ -153,8 +136,8 @@ const Home = () => {
                         {restaurant.name}
                       </h1>
                       <p className="text-black font-bold flex flex-row items-center gap-1 tracking-wide">
-                        <FaStar className="text-yellow" /> 4.8 {restaurant.rating} Good (200+){" "}
-                        <span>$</span>
+                        <FaStar className="text-yellow" /> 4.8{" "}
+                        {restaurant.rating} Good (200+) <span>$</span>
                         <span>$</span>
                         <span className="text-gray-400">$</span>
                       </p>
@@ -198,4 +181,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default RestaurantsAll;
