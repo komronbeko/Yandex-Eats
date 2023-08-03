@@ -6,7 +6,7 @@ export interface IRestourantBody {
   email: string;
   password: string;
   contact_number: string;
-  card_detailts: object;
+  card_details: object;
   longitude: number;
   latitude: number;
   founded_at: number;
