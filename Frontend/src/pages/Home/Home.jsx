@@ -12,7 +12,12 @@ const Home = () => {
       return navigate("/auth/login");
     }
   }, [navigate]);
-  return <main>Main Page</main>;
+
+  return (
+    <div id="demo">
+      Main Page
+    </div>
+  );
 };
 
 export default Home;
