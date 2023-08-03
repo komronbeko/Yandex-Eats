@@ -117,7 +117,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <header
