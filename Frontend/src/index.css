@@ -2,10 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Assistant&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Assistant&display=swap");
 
-/* --THE STYLE OF ACTIVE NAVLINK-- */
+.menu {
+  grid-area: menu;
+}
+.main {
+  grid-area: main;
+}
+.basket {
+  grid-area: basket;
+}
 
-.navActive {
-  color: #fdc632;
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    "menu main main basket"
+    "menu main main basket";
+  gap: 10px;
+  padding: 10px;
 }
