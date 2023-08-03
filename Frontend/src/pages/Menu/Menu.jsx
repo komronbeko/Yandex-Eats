@@ -24,7 +24,7 @@ const Menu = () => {
   };
 
   return (
-    <section className="grid-container container font-assistant">
+    <section className="grid-container container font-assistant my-5">
       {showModal ? (
         <>
           <div className="transition duration-300 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -78,12 +78,32 @@ const Menu = () => {
           <FaArrowLeft /> All restaurants
         </Link>
         <h4 className="font-bold text-black text-2xl mt-10">Menu</h4>
+        <div className="flex flex-col gap-2 justify-start mt-5">
+          <button className="rounded-xl px-5 py-3 w-44 border border-gray-300 hover:bg-gray-100 flex flex-row gap-1 items-center text-center">
+            Burgers
+          </button>
+          <button className="rounded-xl px-5 py-3 w-44 border border-gray-300 hover:bg-gray-100 flex flex-row gap-1 items-center text-center">
+            Others
+          </button>
+          <button className="rounded-xl px-5 py-3 w-44 border border-gray-300 hover:bg-gray-100 flex flex-row gap-1 items-center text-center">
+            Chicken
+          </button>
+          <button className="rounded-xl px-5 py-3 w-44 border border-gray-300 hover:bg-gray-100 flex flex-row gap-1 items-center text-center">
+            Twisters
+          </button>
+          <button className="rounded-xl px-5 py-3 w-44 border border-gray-300 hover:bg-gray-100 flex flex-row gap-1 items-center text-center">
+            Drinks
+          </button>
+          <button className="rounded-xl px-5 py-3 w-44 border border-gray-300 hover:bg-gray-100 flex flex-row gap-1 items-center text-center">
+            Coffee and Tea
+          </button>
+        </div>
       </div>
-      <div className="main flex flex-col justify-center items-center">
+      <div className="main flex flex-col justify-start items-start">
         <div className="flex justify-center flex-col items-center">
           <div className="bg-transparent relative transition duration-500 rounded-lg">
             <img
-              className="rounded-3xl w-[700px] h-96"
+              className="rounded-3xl w-[750px] h-96"
               src="https://eda.yandex/images/3538649/78264450c710e37688b9ead646630b42-1100x825.jpg"
               alt="food"
             />
@@ -142,7 +162,7 @@ const Menu = () => {
             </div>
           </div>
         </div>
-        <div className="transition mt-10 w-[700px] duration-300 flex flex-row gap-2 items-center px-5 py-2 font-bold bg-[#5ac31a] hover:bg-opacity-30 bg-opacity-20 rounded-2xl">
+        <div className="transition mt-10 w-[750px] duration-300 flex flex-row gap-2 items-center px-5 py-2 font-bold bg-[#5ac31a] hover:bg-opacity-30 bg-opacity-20 rounded-2xl">
           <svg
             width="48"
             height="47"
@@ -170,8 +190,192 @@ const Menu = () => {
             </span>
           </p>
         </div>
+        <h4 className="my-5 w-full font-bold text-5xl text-black flex justify-start items-start text-start">
+          Foods
+        </h4>
+        <div className="flex justify-start items-start flex-col">
+          <div className="bg-transparent flex flex-row flex-wrap gap-3 justify-start items-center">
+            <div className="container mx-auto p-3 bg-white w-60 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-300">
+              <img
+                className="rounded-xl"
+                src="https://eda.yandex/images/3472725/c6adfdd120e049be99fa7de6d558c0ad-216x188.jpeg"
+                alt="food"
+              />
+              <div>
+                <h6 className="text-3xl font-bold text-black">39 990 sum</h6>
+                <p className="font-semibold text-xl text-black mb-5">
+                  King-Hot-Dog
+                </p>
+                <span className="font-thin text-md text-gray-600">280 g</span>
+                <div className="mt-3 text-xl font-bold flex flex-row justify-between items-center rounded-xl w-full border bg-gray-200 hover:bg-gray-100 text-center">
+                  <button className="rounded-l-xl py-1 hover:bg-gray-400 w-10 h-full">
+                    -
+                  </button>
+                  1
+                  <button className="rounded-r-xl py-1 hover:bg-gray-400 w-10 h-full">
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="basket">Basket</div>
+      <section class="basket bg-transparent">
+        <div class="mx-auto">
+          <div class="mx-auto">
+            <div class="rounded-3xl bg-white shadow-lg">
+              <div class="px-4 py-6 sm:px-8 sm:py-10">
+                <div class="flow-root">
+                  <ul class="-my-8">
+                    <li class="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0">
+                      <div class="shrink-0 relative">
+                        <span class="absolute top-1 left-1 flex h-6 w-6 items-center justify-center rounded-full border bg-white text-sm font-medium text-gray-500 shadow sm:-top-2 sm:-right-2">
+                          1
+                        </span>
+                        <img
+                          class="h-24 w-24 max-w-full rounded-lg object-cover"
+                          src="https://eda.yandex/images/3472725/c6adfdd120e049be99fa7de6d558c0ad-216x188.jpeg"
+                          alt="food"
+                        />
+                      </div>
+
+                      <div class="relative flex flex-1 flex-col justify-between">
+                        <div class="sm:col-gap-5 sm:grid sm:grid-cols-2">
+                          <div class="pr-8 sm:pr-5">
+                            <p class="text-base font-semibold text-gray-900">
+                              King-Hot-Dog
+                            </p>
+                            <p class="mx-0 mt-1 mb-0 text-sm text-gray-400">
+                              280 g
+                            </p>
+                          </div>
+
+                          <div class="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
+                            <p class="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
+                              39 990 sum
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
+                          <button
+                            type="button"
+                            class="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
+                            <svg
+                              class="h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor">
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"
+                                class=""></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0">
+                      <div class="shrink-0 relative">
+                        <span class="absolute top-1 left-1 flex h-6 w-6 items-center justify-center rounded-full border bg-white text-sm font-medium text-gray-500 shadow sm:-top-2 sm:-right-2">
+                          1
+                        </span>
+                        <img
+                          class="h-24 w-24 max-w-full rounded-lg object-cover"
+                          src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=150&q=60"
+                          alt=""
+                        />
+                      </div>
+
+                      <div class="relative flex flex-1 flex-col justify-between">
+                        <div class="sm:col-gap-5 sm:grid sm:grid-cols-2">
+                          <div class="pr-8 sm:pr-5">
+                            <p class="text-base font-semibold text-gray-900">
+                              Nike Air Max 2019
+                            </p>
+                            <p class="mx-0 mt-1 mb-0 text-sm text-gray-400">
+                              36EU - 4US
+                            </p>
+                          </div>
+
+                          <div class="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
+                            <p class="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
+                              $1259.00
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
+                          <button
+                            type="button"
+                            class="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900">
+                            <svg
+                              class="block h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor">
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"
+                                class=""></path>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="mt-6 space-y-3 border-t border-b py-8">
+                  <div class="flex items-center justify-between">
+                    <p class="text-gray-400">Subtotal</p>
+                    <p class="text-lg font-semibold text-gray-900">$2399.00</p>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <p class="text-gray-400">Shipping</p>
+                    <p class="text-lg font-semibold text-gray-900">$8.00</p>
+                  </div>
+                </div>
+                <div class="mt-6 flex items-center justify-between">
+                  <p class="text-sm font-medium text-gray-900">Total</p>
+                  <p class="text-2xl font-semibold text-gray-900">
+                    <span class="text-xs font-normal text-gray-400">USD</span>{" "}
+                    2499.00
+                  </p>
+                </div>
+
+                <div class="mt-6 text-center">
+                  <button
+                    type="button"
+                    class="group inline-flex w-full items-center justify-center rounded-md bg-orange-500 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
+                    Place Order
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
   );
 };
