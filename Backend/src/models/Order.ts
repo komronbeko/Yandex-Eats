@@ -9,8 +9,8 @@ class Order extends Model {
   count!: number;
   food_id!: number;
   user_id!: number;
-  process!: "ongoing" | "accedpted" | "failed";
-  status!: "unpaid" | "paid" | "ready" | "on_hand" | "accedpted"
+  process!: "ongoing" | "accepted" | "failed";
+  status!: "unpaid" | "paid" | "ready" | "on_hand" | "accepted"
 }
 
 Order.init(
@@ -53,7 +53,7 @@ Order.init(
       allowNull: false,
     },
     status: {
-        type: DataTypes.ENUM("unpaid", "paid", "ready", "on_hand", "accedpted"),
+        type: DataTypes.ENUM("unpaid", "paid", "ready", "on_hand", "accepted"),
         allowNull: false,
         defaultValue: "unpaid"
       },
