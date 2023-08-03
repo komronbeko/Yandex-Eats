@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../../../images/logo1.png";
-import { FaLanguage, FaXing } from "react-icons/fa";
+import { FaXing } from "react-icons/fa";
 import {
   Menu,
   MenuHandler,
@@ -137,7 +137,9 @@ const Header = () => {
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-3xl font-semibold">My Profile</h3>
-                  <button onClick={handleModalClose} className="text-gray-600 transition duration-300 rounded-full hover:bg-gray-500 hover:text-white p-2">
+                  <button
+                    onClick={handleModalClose}
+                    className="text-gray-600 transition duration-300 rounded-full hover:bg-gray-500 hover:text-white p-2">
                     <FaXing />
                   </button>
                 </div>
@@ -175,7 +177,8 @@ const Header = () => {
         <Link to={"/"}>
           <img src={logo} alt="logo" />
         </Link>
-        <div className="w-full sm:max-w-xl">
+        <div
+          className={`w-full sm:max-w-xl `}>
           <div className="overflow-hidden z-0 rounded-md relative p-3">
             <form className="relative flex z-50 bg-transparent rounded-xl">
               <input
@@ -192,13 +195,25 @@ const Header = () => {
         {location.error ? (
           " "
         ) : (
-          <div className="relative right-24 rounded-xl transition duration-300 bg-[#5c5a571a] hover:bg-[#302f2f1a] cursor-pointer text-center text-[#21201F] font-bold flex items-center justify-center w-40 h-12 py-6">
+          <div className="relative right-24 rounded-xl transition duration-300 bg-[#5c5a571a] hover:bg-[#302f2f1a] cursor-pointer text-center text-[#21201F] font-bold flex items-center justify-center w-40 h-12 px-2 py-6">
             {address}
           </div>
         )}
         <div className="flex flex-row gap-5 items-center ml-96 pl-20">
           <div className="flex flex-col items-center cursor-pointer">
-            <FaLanguage />
+            <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 25 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="UiKitUiKitIcon_m UiKitUiKitIcon_root">
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M12.5 2c5.523 0 10 4.477 10 10s-4.477 10-10 10-10-4.477-10-10 4.477-10 10-10Zm.002 18a.21.21 0 0 0 .077-.024c.06-.027.164-.089.303-.22.288-.27.638-.755.976-1.506.584-1.297 1.013-3.128 1.118-5.25h-4.952c.105 2.122.534 3.953 1.118 5.25.338.75.688 1.236.976 1.507.139.13.243.192.303.22.05.022.072.023.078.023h.003Zm-3.024-.59c-.804-1.62-1.343-3.876-1.456-6.41h-3.46a8.009 8.009 0 0 0 4.916 6.41ZM4.562 11h3.46c.113-2.534.652-4.79 1.456-6.41A8.008 8.008 0 0 0 4.562 11Zm10.96 8.41A8.008 8.008 0 0 0 20.438 13h-3.46c-.113 2.534-.652 4.79-1.456 6.41ZM20.438 11a8.008 8.008 0 0 0-4.916-6.41c.804 1.62 1.343 3.876 1.456 6.41h3.46Zm-7.94-7a.211.211 0 0 0-.077.024c-.06.027-.164.089-.303.22-.288.27-.638.755-.976 1.506-.584 1.297-1.013 3.128-1.118 5.25h4.952c-.105-2.122-.534-3.953-1.118-5.25-.338-.75-.688-1.236-.976-1.507a1.176 1.176 0 0 0-.303-.22.206.206 0 0 0-.078-.023h-.003Z"
+                fill="currentColor"></path>
+            </svg>
             English
           </div>
           <Menu>
