@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const auth_routes_1 = __importDefault(require("./auth.routes"));
 const restourant_routes_1 = __importDefault(require("./restourant.routes"));
 const food_routes_1 = __importDefault(require("./food.routes"));
+// import superadmin from "./superadmin.routes";
 const user_routes_1 = __importDefault(require("./user.routes"));
 const restaurant_courier_routes_1 = __importDefault(require("./restaurant-courier.routes"));
 const admin_routes_1 = __importDefault(require("./admin.routes"));

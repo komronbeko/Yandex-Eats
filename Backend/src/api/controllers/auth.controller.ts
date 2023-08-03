@@ -95,19 +95,19 @@ export const register: RequestHandler = async (
     const findUser = await User.findOne({
       where: { [Op.or]: [{ name }, { email }] },
     });
+
     if (findUser) {
-      switch (findUser.is_verified) {
+      switch (findUser?.dataValues.is_verified) {
         case true:
           throw new CustomError("User already exists", 403);
         case false:
           const data = await transporter.sendMail(mailData);
 
-          res.cookie("code", code, { maxAge: 120 * 100 * 60 });
-          res.cookie("email", email, { maxAge: 120 * 100 * 60 });
-          res.cookie("role", role, { maxAge: 120 * 100 * 60 });
-
           return res.status(201).json({
             message: "Verification code is sent to your email!",
+            code,
+            email,
+            role,
           });
       }
     }
@@ -125,12 +125,11 @@ export const register: RequestHandler = async (
 
     const data = await transporter.sendMail(mailData);
 
-    res.cookie("code", code, { maxAge: 120 * 100 * 60 });
-    res.cookie("email", email, { maxAge: 120 * 100 * 60 });
-    res.cookie("role", role, { maxAge: 120 * 100 * 60 });
-
     res.status(201).json({
       message: "Verification code is sent to your email!",
+      code,
+      email,
+      role,
     });
   } catch (error) {
     next(error);
@@ -145,8 +144,7 @@ export const verifyUser: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { code, email, role } = req.cookies;
-    const verifyCode: number = req.body.verifyCode;
+    const { verifyCode, code, email, role } = req.body;
 
     if (code != verifyCode) {
       throw new CustomError("Incorrect code", 403);
