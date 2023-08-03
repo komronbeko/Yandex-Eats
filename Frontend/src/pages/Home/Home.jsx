@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
@@ -7,17 +8,12 @@ const Home = () => {
 
   useEffect(() => {
     const token = getAccessTokenFromLocalStorage();
-
     if (!token) {
       return navigate("/auth/login");
     }
   }, [navigate]);
 
-  return (
-    <div id="demo">
-      Main Page
-    </div>
-  );
+  return <div id="demo">Main Page</div>;
 };
 
 export default Home;
