@@ -77,16 +77,16 @@ const register = async (req, res, next) => {
             where: { [sequelize_1.Op.or]: [{ name }, { email }] },
         });
         if (findUser) {
-            switch (findUser.is_verified) {
+            switch (findUser?.dataValues.is_verified) {
                 case true:
                     throw new custom_error_1.CustomError("User already exists", 403);
                 case false:
                     const data = await transporter.sendMail(mailData);
-                    res.cookie("code", code, { maxAge: 120 * 100 * 60 });
-                    res.cookie("email", email, { maxAge: 120 * 100 * 60 });
-                    res.cookie("role", role, { maxAge: 120 * 100 * 60 });
                     return res.status(201).json({
                         message: "Verification code is sent to your email!",
+                        code,
+                        email,
+                        role,
                     });
             }
         }
@@ -100,11 +100,11 @@ const register = async (req, res, next) => {
             role,
         });
         const data = await transporter.sendMail(mailData);
-        res.cookie("code", code, { maxAge: 120 * 100 * 60 });
-        res.cookie("email", email, { maxAge: 120 * 100 * 60 });
-        res.cookie("role", role, { maxAge: 120 * 100 * 60 });
         res.status(201).json({
             message: "Verification code is sent to your email!",
+            code,
+            email,
+            role,
         });
     }
     catch (error) {
@@ -115,8 +115,7 @@ exports.register = register;
 //--------CHECKING, IF VERIFICATION CODE IS REAL--------------------------------
 const verifyUser = async (req, res, next) => {
     try {
-        const { code, email, role } = req.cookies;
-        const verifyCode = req.body.verifyCode;
+        const { verifyCode, code, email, role } = req.body;
         if (code != verifyCode) {
             throw new custom_error_1.CustomError("Incorrect code", 403);
         }

@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getAccessTokenFromLocalStorage,
   setAccessTokenToLocalStorage,
+  setRoleToStorage,
 } from "../../utils/storage";
 
 const Login = () => {
@@ -64,6 +65,7 @@ const Login = () => {
         setPassword("");
         let messageFromBackend = response.data.message;
         message(messageFromBackend, "success");
+        setRoleToStorage(response.data.role);
         setAccessTokenToLocalStorage(response.data.token);
         navigate("/");
       }
