@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.relations = void 0;
 const Food_1 = __importDefault(require("./Food"));
+const Rating_1 = __importDefault(require("./Rating"));
 const Restaurant_couriers_1 = __importDefault(require("./Restaurant-couriers"));
 const Restourant_1 = __importDefault(require("./Restourant"));
 const User_1 = __importDefault(require("./User"));
@@ -18,6 +19,30 @@ const relations = () => {
     Food_1.default.belongsTo(Restourant_1.default, {
         foreignKey: {
             name: "restourant_id",
+            allowNull: false,
+        },
+    });
+    Restourant_1.default.hasMany(Rating_1.default, {
+        foreignKey: {
+            name: "restaurant_id",
+            allowNull: false,
+        },
+    });
+    Rating_1.default.belongsTo(Restourant_1.default, {
+        foreignKey: {
+            name: "restaurant_id",
+            allowNull: false,
+        },
+    });
+    User_1.default.hasMany(Rating_1.default, {
+        foreignKey: {
+            name: "user_id",
+            allowNull: false,
+        },
+    });
+    Rating_1.default.belongsTo(User_1.default, {
+        foreignKey: {
+            name: "user_id",
             allowNull: false,
         },
     });

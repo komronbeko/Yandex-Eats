@@ -5,6 +5,9 @@ import { restourantSchema } from "../../validations/restourant.validate";
 import { CustomError } from "../../types/custom-error";
 import Restourants from "../../models/Restourant";
 import Foods from "../../models/Food";
+import Rating from "../../models/Rating";
+import { sequelize } from "../../../config/db/connections";
+import { Op } from "sequelize";
 
 export const post: RequestHandler = async (
   req: Request,
@@ -41,7 +44,6 @@ export const post: RequestHandler = async (
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-
     await Restourants.create({
       name,
       owner,
@@ -68,16 +70,61 @@ export const get_all: RequestHandler = async (
 ): Promise<void> => {
   try {
     const data = await Restourants.findAll({
-        include: [
-            {
-                model: Foods
-            }
-        ]
+      include: [
+        {
+          model: Rating,
+          attributes: [
+            [sequelize.fn("AVG", sequelize.col("stars")), "average_rating"],
+          ],
+        },
+        {
+          model: Foods,
+        },
+      ],
+      group: ["Restourant.id", "Ratings.id", "Food.id"],
     });
 
     res.status(200).json({ message: "success", data });
   } catch (error) {
     next(error);
+  }
+};
+
+interface IGetNearQuery {
+  longitude?: any;
+  latitude?: any;
+}
+
+export const get_near: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { longitude, latitude } = req.query as IGetNearQuery;
+
+    const distance = 3;
+
+    const minLatitude = latitude - distance / 111;
+    const maxLatitude = latitude + distance / 111;
+    const minLongitude = longitude - distance / (111 * Math.cos(latitude));
+    const maxLongitude = longitude + distance / (111 * Math.cos(latitude));
+
+    const restaurants = await Restourants.findAll({
+      where: {
+        latitude: {
+          [Op.between]: [minLatitude, maxLatitude],
+        },
+        longitude: {
+          [Op.between]: [minLongitude, maxLongitude],
+        },
+      },
+      limit: 10, // Limit the number of results to 10
+    });
+
+    res.status(200).json({message: "success", data: restaurants})
+  } catch (error) {
+    next(error)
   }
 };
 
@@ -119,6 +166,7 @@ export const update: RequestHandler = async (
     const findRestourant = await Restourants.findOne({ where: { id } });
 
     if (!findRestourant) throw new CustomError("Restourant not found", 400);
+    
     else {
       await Restourants.update(
         {

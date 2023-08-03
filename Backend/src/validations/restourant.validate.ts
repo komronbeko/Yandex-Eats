@@ -14,8 +14,8 @@ export const restourantSchema = (payload: IRestourantBody) => {
       cvv: Joi.number().required(),
       expiration_date: Joi.string().required(),
     },
-    longitude: Joi.string().required(),
-    latitude: Joi.string().required(),
+    longitude: Joi.number().required(),
+    latitude: Joi.number().required(),
     founded_at: Joi.number().required(),
   }).validate(payload);
 };
