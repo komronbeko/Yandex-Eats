@@ -52,7 +52,7 @@ Order.init({
         allowNull: false,
     },
     status: {
-        type: sequelize_1.DataTypes.ENUM("unpaid", "paid", "ready", "on_hand", "accedpted"),
+        type: sequelize_1.DataTypes.ENUM("unpaid", "paid", "ready", "on_hand", "accepted"),
         allowNull: false,
         defaultValue: "unpaid"
     },
