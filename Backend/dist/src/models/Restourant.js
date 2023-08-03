@@ -59,11 +59,11 @@ Restourant.init({
         allowNull: false,
     },
     longitude: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
     latitude: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
     founded_at: {

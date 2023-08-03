@@ -25,16 +25,19 @@ const isRestaurantAdmin: RequestHandler = async (
       where: { email: findRestourant.email },
     });
 
-    if (
-      !verifiedRestaurant?.dataValues.is_verified ||
-      verifiedRestaurant?.dataValues.role !== "restaurant_admin" ||
-      verifiedRestaurant?.dataValues.role !== "admin" ||
-      verifiedRestaurant?.dataValues.role !== "superadmin"
-    )
-      throw new CustomError("Invalid token!", 401);
 
-    (req as IRestourantRequest).verifiedRestaurant =
-      verifiedRestaurant.dataValues;
+    if (
+      verifiedRestaurant?.dataValues.is_verified ||
+      verifiedRestaurant?.dataValues.role == "restaurant_admin" ||
+      verifiedRestaurant?.dataValues.role == "admin" ||
+      verifiedRestaurant?.dataValues.role == "superadmin"
+    ) {
+      (req as IRestourantRequest).verifiedRestaurant =
+        verifiedRestaurant.dataValues;
+    } else {
+      throw new CustomError("Invalid token!", 401);
+    }
+
     next();
   } catch (error) {
     next(error);

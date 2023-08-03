@@ -18,8 +18,8 @@ const restourantSchema = (payload) => {
             cvv: joi_1.default.number().required(),
             expiration_date: joi_1.default.string().required(),
         },
-        longitude: joi_1.default.string().required(),
-        latitude: joi_1.default.string().required(),
+        longitude: joi_1.default.number().required(),
+        latitude: joi_1.default.number().required(),
         founded_at: joi_1.default.number().required(),
     }).validate(payload);
 };

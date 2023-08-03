@@ -16,13 +16,16 @@ const isRestaurantAdmin = async (req, res, next) => {
         const verifiedRestaurant = await Restourant_1.default.findOne({
             where: { email: findRestourant.email },
         });
-        if (!verifiedRestaurant?.dataValues.is_verified ||
-            verifiedRestaurant?.dataValues.role !== "restaurant_admin" ||
-            verifiedRestaurant?.dataValues.role !== "admin" ||
-            verifiedRestaurant?.dataValues.role !== "superadmin")
+        if (verifiedRestaurant?.dataValues.is_verified ||
+            verifiedRestaurant?.dataValues.role == "restaurant_admin" ||
+            verifiedRestaurant?.dataValues.role == "admin" ||
+            verifiedRestaurant?.dataValues.role == "superadmin") {
+            req.verifiedRestaurant =
+                verifiedRestaurant.dataValues;
+        }
+        else {
             throw new custom_error_1.CustomError("Invalid token!", 401);
-        req.verifiedRestaurant =
-            verifiedRestaurant.dataValues;
+        }
         next();
     }
     catch (error) {

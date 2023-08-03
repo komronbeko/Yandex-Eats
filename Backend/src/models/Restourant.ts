@@ -11,8 +11,8 @@ class Restourant extends Model {
   role!: string;
   contact_number!: string;
   card_detailts!: object;
-  longitude!: string;
-  latitude!: string;
+  longitude!: number;
+  latitude!: number;
   founded_at!: number;
   is_verified!: boolean;
   created_at!: Date;
@@ -60,11 +60,11 @@ Restourant.init(
       allowNull: false,
     },
     longitude: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     latitude: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     founded_at: {
