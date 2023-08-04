@@ -9,7 +9,7 @@ export const restourantSchema = (payload: IRestourantBody) => {
     email: Joi.string().required(),
     password: Joi.string().required(),
     contact_number: Joi.string().required(),
-    card_detailts: {
+    card_details: {
       card_number: Joi.number().required(),
       cvv: Joi.number().required(),
       expiration_date: Joi.string().required(),
@@ -26,3 +26,4 @@ export const restaurantVerifySchema = (payload: IRestourantVerify) => {
     is_verified: Joi.boolean().required(),
   }).validate(payload);
 };
+

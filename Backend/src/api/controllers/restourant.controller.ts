@@ -22,7 +22,7 @@ export const post: RequestHandler = async (
       email,
       password,
       contact_number,
-      card_detailts,
+      card_details,
       longitude,
       latitude,
       founded_at,
@@ -35,7 +35,7 @@ export const post: RequestHandler = async (
       email,
       password,
       contact_number,
-      card_detailts,
+      card_details,
       longitude,
       latitude,
       founded_at,
@@ -51,7 +51,7 @@ export const post: RequestHandler = async (
       email,
       password: hashedPassword,
       contact_number,
-      card_detailts,
+      card_details,
       longitude,
       latitude,
       founded_at,
@@ -83,6 +83,40 @@ export const get_all: RequestHandler = async (
       ],
       group: ["Restourant.id", "Ratings.id", "Food.id"],
     });
+
+    res.status(200).json({ message: "success", data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const get_one: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const {id} = req.params;
+
+    const findRestaurant = await Restourants.findOne({where: {id}});
+
+    if(!findRestaurant) throw new CustomError("Restaurant, not found", 400);
+
+    const data = await Restourants.findOne({
+      include: [
+        {
+          model: Rating,
+          attributes: [
+            [sequelize.fn("AVG", sequelize.col("stars")), "average_rating"],
+          ],
+        },
+        {
+          model: Foods,
+        },
+      ],
+      group: ["Restourant.id", "Ratings.id", "Food.id"],
+      where: {id: findRestaurant.dataValues.id}
+    },);
 
     res.status(200).json({ message: "success", data });
   } catch (error) {
@@ -141,7 +175,7 @@ export const update: RequestHandler = async (
       email,
       password,
       contact_number,
-      card_detailts,
+      card_details,
       longitude,
       latitude,
       founded_at,
@@ -156,7 +190,7 @@ export const update: RequestHandler = async (
       email,
       password,
       contact_number,
-      card_detailts,
+      card_details,
       longitude,
       latitude,
       founded_at,
@@ -175,7 +209,7 @@ export const update: RequestHandler = async (
           business_hours,
           email,
           contact_number,
-          card_detailts,
+          card_details,
           longitude,
           latitude,
           founded_at,

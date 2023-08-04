@@ -9,7 +9,9 @@ const isAuth_middleware_1 = __importDefault(require("../middlewares/isAuth.middl
 const is_restaurant_admin_1 = __importDefault(require("../middlewares/is-restaurant-admin"));
 const router = (0, express_1.Router)();
 router.post("/restaurant", isAuth_middleware_1.default, restourant_controller_1.post);
-router.get("/restaurants", restourant_controller_1.get_all);
+router.get("/restaurants", isAuth_middleware_1.default, restourant_controller_1.get_all);
+router.get("/restaurant-near", isAuth_middleware_1.default, restourant_controller_1.get_near);
+router.get("/restaurant/:id", isAuth_middleware_1.default, restourant_controller_1.get_one);
 router.put("/restaurant/:id", is_restaurant_admin_1.default, restourant_controller_1.update);
 router.delete("/restaurant/:id", is_restaurant_admin_1.default, restourant_controller_1._delete);
 exports.default = router;

@@ -10,7 +10,7 @@ class Restourant extends Model {
   password!: string;
   role!: string;
   contact_number!: string;
-  card_detailts!: object;
+  card_details!: object;
   longitude!: number;
   latitude!: number;
   founded_at!: number;
@@ -55,7 +55,7 @@ Restourant.init(
       type: DataTypes.STRING,
       defaultValue: 'restaurant_admin',
     },
-    card_detailts: {
+    card_details: {
       type: DataTypes.JSON,
       allowNull: false,
     },

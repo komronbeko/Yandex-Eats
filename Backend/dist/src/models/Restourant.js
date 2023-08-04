@@ -11,7 +11,7 @@ class Restourant extends sequelize_1.Model {
     password;
     role;
     contact_number;
-    card_detailts;
+    card_details;
     longitude;
     latitude;
     founded_at;
@@ -54,7 +54,7 @@ Restourant.init({
         type: sequelize_1.DataTypes.STRING,
         defaultValue: 'restaurant_admin',
     },
-    card_detailts: {
+    card_details: {
         type: sequelize_1.DataTypes.JSON,
         allowNull: false,
     },
