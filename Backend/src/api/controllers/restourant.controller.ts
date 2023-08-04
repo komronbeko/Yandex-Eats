@@ -90,40 +90,6 @@ export const get_all: RequestHandler = async (
   }
 };
 
-export const get_one: RequestHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const {id} = req.params;
-
-    const findRestaurant = await Restourants.findOne({where: {id}});
-
-    if(!findRestaurant) throw new CustomError("Restaurant, not found", 400);
-
-    const data = await Restourants.findOne({
-      include: [
-        {
-          model: Rating,
-          attributes: [
-            [sequelize.fn("AVG", sequelize.col("stars")), "average_rating"],
-          ],
-        },
-        {
-          model: Foods,
-        },
-      ],
-      group: ["Restourant.id", "Ratings.id", "Food.id"],
-      where: {id: findRestaurant.dataValues.id}
-    },);
-
-    res.status(200).json({ message: "success", data });
-  } catch (error) {
-    next(error);
-  }
-};
-
 interface IGetNearQuery {
   longitude?: any;
   latitude?: any;
