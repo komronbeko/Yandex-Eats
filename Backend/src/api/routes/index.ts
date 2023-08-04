@@ -6,14 +6,14 @@ import restaurantCouriersRoutes from "./restaurant-courier.routes";
 import adminRoutes from "./admin.routes";
 import ratingRoutes from "./rating.routes";
 import orderRoutes from "./order.routes";
+import paymentRoutes from "./payment.routes";
 
 export default [
   auth,
-  restourantRoutes,
-  foodRoutes,
-  userRoutes,
   restaurantCouriersRoutes,
   adminRoutes,
   ratingRoutes,
+  orderRoutes,
+  paymentRoutes,
   orderRoutes
 ];

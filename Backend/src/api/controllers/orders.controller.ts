@@ -118,3 +118,75 @@ export const delete_from_order: RequestHandler = async (
     next(error);
   }
 };
+
+
+
+export const paid_orders: RequestHandler = async (
+  req: IOrderRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const data = await Order.findAll({
+      where: {
+        status: "paid"
+      },
+      attributes: ["food_name", "price", "count", "total", "process", "status"],
+    });
+
+    res.status(200).json({ message: "success", data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const ready_orders_get: RequestHandler = async (
+  req: IOrderRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const data = await Order.findAll({
+      where: {
+        status: "ready"
+      },
+      attributes: ["food_name", "price", "count", "total", "process", "status"],
+    });
+
+    res.status(200).json({ message: "success", data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const order_ready: RequestHandler = async (
+  req: IOrderRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { food_id, order_id } = req.body;
+
+
+    const findFood = await Foods.findOne({
+      where: { id: food_id },
+    });
+
+    if (!findFood) throw new CustomError("Food not found", 400);
+
+    const findOrder = await Order.findOne({
+      where: { id: order_id, food_id, process: "ongoing" },
+    });
+
+    if (!findOrder) throw new CustomError("Order not found", 400);
+
+
+    await Order.update({status: "ready"}, {
+      where: {id: order_id, food_id}
+    });
+
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    next(error);
+  }
+};
