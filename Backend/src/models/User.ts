@@ -9,6 +9,7 @@ class User extends Model {
   public phone_number!: string;
   public is_verified!: boolean;
   public role!: "admin" | "courier" | "user" | "superadmin";
+  public money!: number;
   public created_at!: Date;
   public updated_at!: Date;
 }
@@ -47,6 +48,11 @@ User.init(
       type: DataTypes.ENUM('admin', 'courier', 'user', 'superadmin'),
       defaultValue: 'user',
       allowNull: false
+    },
+    money: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.delete_from_order = exports.orders_in_carts = exports.post_order = void 0;
+exports.order_ready = exports.ready_orders_get = exports.paid_orders = exports.delete_from_order = exports.orders_in_carts = exports.post_order = void 0;
 const custom_error_1 = require("../../types/custom-error");
 const Food_1 = __importDefault(require("../../models/Food"));
 const order_validate_1 = require("../../validations/order.validate");
@@ -91,3 +91,56 @@ const delete_from_order = async (req, res, next) => {
     }
 };
 exports.delete_from_order = delete_from_order;
+const paid_orders = async (req, res, next) => {
+    try {
+        const data = await Order_1.default.findAll({
+            where: {
+                status: "paid"
+            },
+            attributes: ["food_name", "price", "count", "total", "process", "status"],
+        });
+        res.status(200).json({ message: "success", data });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.paid_orders = paid_orders;
+const ready_orders_get = async (req, res, next) => {
+    try {
+        const data = await Order_1.default.findAll({
+            where: {
+                status: "ready"
+            },
+            attributes: ["food_name", "price", "count", "total", "process", "status"],
+        });
+        res.status(200).json({ message: "success", data });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.ready_orders_get = ready_orders_get;
+const order_ready = async (req, res, next) => {
+    try {
+        const { food_id, order_id } = req.body;
+        const findFood = await Food_1.default.findOne({
+            where: { id: food_id },
+        });
+        if (!findFood)
+            throw new custom_error_1.CustomError("Food not found", 400);
+        const findOrder = await Order_1.default.findOne({
+            where: { id: order_id, food_id, process: "ongoing" },
+        });
+        if (!findOrder)
+            throw new custom_error_1.CustomError("Order not found", 400);
+        await Order_1.default.update({ status: "ready" }, {
+            where: { id: order_id, food_id }
+        });
+        res.status(200).json({ message: "success" });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.order_ready = order_ready;

@@ -10,6 +10,7 @@ class User extends sequelize_1.Model {
     phone_number;
     is_verified;
     role;
+    money;
     created_at;
     updated_at;
 }
@@ -46,6 +47,11 @@ User.init({
         type: sequelize_1.DataTypes.ENUM('admin', 'courier', 'user', 'superadmin'),
         defaultValue: 'user',
         allowNull: false
+    },
+    money: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
     },
 }, {
     tableName: "users",

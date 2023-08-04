@@ -26,3 +26,4 @@ export const restaurantVerifySchema = (payload: IRestourantVerify) => {
     is_verified: Joi.boolean().required(),
   }).validate(payload);
 };
+
