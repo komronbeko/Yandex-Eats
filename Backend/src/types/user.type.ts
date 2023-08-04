@@ -5,6 +5,7 @@ export interface IUserRegister {
   phone_number: string;
   role?: string;
   id?: number;
+  money?: number
 }
 
 export interface IUserLogin {

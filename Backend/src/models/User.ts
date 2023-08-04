@@ -1,6 +1,5 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../../config/db/connections";
-
 class User extends Model {
   public id!: number;
   public name!: string;
@@ -9,10 +8,10 @@ class User extends Model {
   public phone_number!: string;
   public is_verified!: boolean;
   public role!: "admin" | "courier" | "user" | "superadmin";
+  public money!: number;
   public created_at!: Date;
   public updated_at!: Date;
 }
-
 User.init(
   {
     id: {
@@ -48,6 +47,11 @@ User.init(
       defaultValue: 'user',
       allowNull: false
     },
+    money: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
     tableName: "users",
@@ -56,5 +60,4 @@ User.init(
     updatedAt: "updated_at",
   }
 );
-
 export default User;
