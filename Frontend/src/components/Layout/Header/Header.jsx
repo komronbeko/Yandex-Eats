@@ -17,8 +17,6 @@ import { getAccessTokenFromLocalStorage } from "../../../utils/storage";
 const Header = () => {
   const url = useLocation().pathname;
 
-  const token = getAccessTokenFromLocalStorage();
-
   const [location, setLocation] = useState({
     latitude: null,
     longitude: null,
@@ -101,8 +99,10 @@ const Header = () => {
 
   const [user, setUser] = useState([]);
 
-  const fetchData = async () => {
+  const token = getAccessTokenFromLocalStorage();
+  const fetchData = async (token) => {
     try {
+      console.log(token);
       const response = await axios.get("http://localhost:7777/user", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -116,7 +116,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(token);
   }, []);
 
   return (

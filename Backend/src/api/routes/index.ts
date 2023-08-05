@@ -15,5 +15,8 @@ export default [
   ratingRoutes,
   orderRoutes,
   paymentRoutes,
-  orderRoutes
+  orderRoutes,
+  restourantRoutes,
+  userRoutes,
+  foodRoutes
 ];
